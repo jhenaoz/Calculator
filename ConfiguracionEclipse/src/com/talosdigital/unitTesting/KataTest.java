@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.talosdigital.Calculator.Calculator;
+import com.talosdigital.exceptions.NegativeNumberException;
 
 /**
- * this is unit testing class for the KATA calculator
+ * this is unit testing class for the Kata calculator
  * @author jhenaoz
+ * @version 02/10/2014
  */
 public class KataTest {
 	Calculator calc = new Calculator();
@@ -65,13 +67,10 @@ public class KataTest {
 			e.printStackTrace();
 		}
 	}
-	@Test
-	public void testNegativeWithDelimiter(){
-		try {
+	//this test is for check if the negative number exception is working
+	@Test(expected = NegativeNumberException.class)
+	public void testNegativeWithDelimiter() throws NegativeNumberException{
 			assertEquals("//;\n1;2", 1, calc.add("//;\n-1;-2"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	@Test
 	public void testBigNumberIgnored(){

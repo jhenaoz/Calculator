@@ -4,6 +4,11 @@ import java.util.regex.Pattern;
 
 import com.talosdigital.exceptions.NegativeNumberException;
 
+/**
+ * This class have the main logic for the kata Calculator
+ * @author jhenaoz
+ * @version 02/10/2014
+ */
 public class Calculator{
 	
 	/**
@@ -13,7 +18,7 @@ public class Calculator{
 	 * @return result, the sum of the numbers
 	 * @throws NegativeNumberException, if the input have a negative number
 	 */
-	public int add (String numbers) throws Exception{
+	public int add (String numbers) throws NegativeNumberException{
 		int result = 0 ;
 		String nums[];
 		String separator = ",";
@@ -47,6 +52,7 @@ public class Calculator{
 		}
 		for (String string : nums) {
 			int num = Integer.parseInt(string);
+		 //check is there is a negative number, and add it to a string
 			if (num < 0) {
 				if (negatives.length() == 0) {
 					negatives += num;
@@ -56,19 +62,12 @@ public class Calculator{
 			}else if(num>1000){
 				continue;
 			}
+			//sum the number is pass the 2 conditions
 			result += num;
 		}
 		if (negatives.length() > 0) {
 			throw new NegativeNumberException("Negatives not allowed: "+ negatives);
 		}
 		return result;
-	}
-	public static void main(String[] args) {
-		Calculator calc = new Calculator();
-		try {
-			calc.add("//[*][%]\n1*2%3");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
