@@ -11,44 +11,36 @@ import com.talosdigital.exceptions.NegativeNumberException;
  */
 public class Calculator{
 	
+	ArrayList<String> separators;
+	String input;
+	public Calculator(){
+		separators = new ArrayList<String>();
+		input = "";
+	}
+	
 	/**
-	 * this method get and string with numbers and return their sum, if the input
+	 * this method get and string with input and return their sum, if the input
 	 * is empty, the method return 0
-	 * @param numbers
-	 * @return result, the sum of the numbers
+	 * @param input
+	 * @return result, the sum of the input
 	 * @throws NegativeNumberException, if the input have a negative number
 	 */
-	public int add (String numbers) throws NegativeNumberException{
+	public int add (String input) throws NegativeNumberException{
+		this.input = input;
 		int result = 0 ;
 		String nums[];
 		String separator = ",";
-		ArrayList<String> separators = new ArrayList<String>();
 		String negatives = "";
-		//first check the failure, if the input don't have numbers
-		if (numbers.length() == 0) {
+		//first check the failure, if the input don't have input
+		if (input.length() == 0) {
 			return result;
 		}
-		nums =numbers.split("\n|"+separator);
+		nums =input.split("\n|"+separator);
 		//this conditional check for all the separators and conditions
-		if (numbers.contains("//")) {
-			nums = numbers.split("//|\n");
-			String aux[] =nums[1].split(Pattern.quote("["));
-			for (String string : aux) {
-				if (!string.isEmpty()) {
-					string = string.replaceAll(Pattern.quote("]"), "");
-					separators.add(string);
-				}
-			}
-			numbers =numbers.replaceFirst("//", "");
-			numbers =numbers.replaceFirst("\n", "");
-			numbers = numbers.replaceAll(Pattern.quote("["), "");
-			numbers = numbers.replaceAll(Pattern.quote("]"), "");
-			separator ="";
-			for (String string : separators) {
-				numbers = numbers.replaceFirst(Pattern.quote(string), "");
-				separator += "|" + Pattern.quote(string);
-			}
-			nums =numbers.split("\n"+separator);
+		if (input.contains("//")) {
+			String specialSeparators = getSpecialSeparators();
+			input = this.input;
+			nums =input.split("\n"+ specialSeparators);
 		}
 		for (String string : nums) {
 			int num = Integer.parseInt(string);
@@ -69,5 +61,30 @@ public class Calculator{
 			throw new NegativeNumberException("Negatives not allowed: "+ negatives);
 		}
 		return result;
+	}
+	
+	public String getSpecialSeparators(){
+		String nums[];
+		String output ="";
+		String openBracket =Pattern.quote("[");
+		String closeBracket = Pattern.quote("]");
+		nums = input.split("//|\n");
+		String separatorsForInput[] =nums[1].split(openBracket);
+		for (String separator : separatorsForInput) {
+			if (!separator.isEmpty()) {
+				separator = separator.replaceAll(closeBracket, "");
+				separators.add(separator);
+			}
+		}
+		input =input.replaceFirst("//", "");
+		input =input.replaceFirst("\n", "");
+		input = input.replaceAll(openBracket, "");
+		input = input.replaceAll(closeBracket, "");
+		for (String separator : separators) {
+			separator = Pattern.quote(separator);
+			input = input.replaceFirst(separator, "");
+			output += "|" + separator;
+		}
+		return output;
 	}
 }

@@ -15,57 +15,33 @@ public class KataTest {
 	Calculator calc = new Calculator();
 
 	@Test
-	public void testOneNumber() {
-		try {
+	public void testOneNumber() throws NegativeNumberException {
 			assertEquals("1 =1",1, calc.add("1"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Test
-	public void testTwoNumbers() {
-		try {
+	public void testTwoNumbers() throws NegativeNumberException {
 			assertEquals("1,3=4", 4, calc.add("1,3"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Test
-	public void testZeroElements(){
-		try {
+	public void testZeroElements() throws NegativeNumberException{
 			assertEquals(" '' = 0",0, calc.add(""));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Test()
-	public void testManyElements(){
-		try {
-			assertEquals("1,1,1,1= 4", 4, calc.add("1,1,1,1"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void testManyElements() throws NegativeNumberException{
+		assertEquals("1,1,1,1= 4", 4, calc.add("1,1,1,1"));
 	}
 	
 	@Test
-	public void testManyElementsAndNewLine(){
-		try {
-			assertEquals("elements with break line", 5, calc.add("1,1\n3"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void testManyElementsAndNewLine() throws NegativeNumberException{
+		assertEquals("elements with break line", 5, calc.add("1,1\n3"));
 	}
 
 	@Test
-	public void testDelimiter(){
-		try {
-			assertEquals("//;\n1;2", 3, calc.add("//;\n1;2"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void testDelimiter() throws NegativeNumberException{
+		assertEquals("//;\n1;2", 3, calc.add("//;\n1;2"));
 	}
 	//this test is for check if the negative number exception is working
 	@Test(expected = NegativeNumberException.class)
@@ -73,19 +49,12 @@ public class KataTest {
 			assertEquals("//;\n1;2", 1, calc.add("//;\n-1;-2"));
 	}
 	@Test
-	public void testBigNumberIgnored(){
-		try {
-			assertEquals("//;\n1001;2", 2, calc.add("//;\n1001;2"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void testBigNumberIgnored() throws NegativeNumberException{
+		assertEquals("//;\n1001;2", 2, calc.add("//;\n1001;2"));
 	}
+	
 	@Test
-	public void testBigSizeDelimiter(){
-		try {
-			assertEquals( 6, calc.add("//[***]\n1***2***3"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void testBigSizeDelimiter() throws NegativeNumberException{
+		assertEquals( 6, calc.add("//[***]\n1***2***3"));
 	}
 }
